@@ -6,6 +6,7 @@
                  [stasis "2.5.0"]
                  [ring "1.8.1"]
                  [hiccup "1.0.5"]
+                 [hiccup-bridge "1.0.1"]
                  [optimus "0.20.2"]
                  [environ "1.2.0"]]
   :ring {:handler samuelmchugh.web/app}

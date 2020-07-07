@@ -10,20 +10,27 @@
     [clojure.java.io :refer [resource]]
     [clojure.java.io :as io]
     [stasis.core :as stasis]
-    [environ.core :refer [env]]))
+    [environ.core :refer [env]]
+    [hiccup.page :as hiccup]
+    [hiccup-bridge.core :as hicv]))
 
 (def dev? (env :dev)) ;;TODO NEEDS TO BE FIXED
 ; enable reloadable config
 
 (defn get-assets []
-  (assets/load-assets "public" [#"/fonts/.+"
+  (assets/load-assets "public" [;#"/fonts/.+" TODO reintroduce once we have fonts
                                 #"/favicons/.+"]))
 
 (defn get-pages []
   (stasis/merge-page-sources
    {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
     :partials (->> (stasis/slurp-directory "resources/partials" #".*\.html$")
-                   (utils/map-v #(partial base/page %)))}))
+                   (utils/map-v #(partial base/page %)))
+    :pages (->> (stasis/slurp-directory "src/samuelmchugh/pages" #".*\.clj$")
+                (utils/map-v read-string)
+                (utils/map-v hicv/hiccup->html)
+                (utils/map-v #(partial base/page %))
+                (utils/map-k #(clojure.string/replace % #"\.clj$" "/index.html")))}))
 
 (def app
   (optimus/wrap
