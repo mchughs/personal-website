@@ -1,13 +1,7 @@
-<div class="blue">
-  I'm feeling blue
-  <div class="lime">
-    Now i'm sick though
-  </div>
-</div>
-<!-- [:div
+[:div
  [:p "Hi, my name is Samuel McHugh and I'm a Clojure Web Developer living in Amsterdam."]
  [:div "contact details"]
  [:div "This is my intro text"]
  [:div "picture of me"]
  [:div "interactive timeline"]
- [:div "download cv section"]] -->
+ [:div "download cv section"]]

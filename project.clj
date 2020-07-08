@@ -20,4 +20,7 @@
   :profiles {:prod {:env {:dev false}}
              :dev {:env {:dev true}
                    :plugins [[lein-ring "0.12.5"]]}}
-  :target-path "target/%s")
+  :target-path "target/%s"
+  :plugins [[yogthos/lein-sass "0.1.10"]]
+  :sass {:source "resources/public/sass"
+         :target "target/resources/public/css"})
