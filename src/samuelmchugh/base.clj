@@ -1,7 +1,18 @@
 (ns samuelmchugh.base
   (:require
     [optimus.link :as o.link]
-    [hiccup.page :as hiccup]))
+    [hiccup.page :as hiccup]
+    [samuelmchugh.config :as config]))
+
+(defn- gen-favicon-links [request]
+  (->> config/favicons
+       (map #(update % :href (partial o.link/file-path request)))
+       (map #(conj [:link] %))))
+
+(defn- gen-nav-bar-anchors []
+  (->> config/nav-bar
+       (map (fn [{:keys [href name]}]
+              [:a {:href href} name]))))
 
 (defn page [page request]
   (hiccup/html5
@@ -38,16 +49,13 @@
      [:meta {:name "apple-mobile-web-app-status-bar-style" :content "#4285f4"}] ;; TODO decide on a color
 
      ; Favicons
-     [:link {:rel "apple-touch-icon"       :sizes "180x180" :href (o.link/file-path request "/favicons/apple-touch-icon.png")}]
-     [:link {:rel "icon" :type "image/png" :sizes "32x32"   :href (o.link/file-path request "/favicons/favicon-32x32.png")}]
-     [:link {:rel "icon" :type "image/png" :sizes "16x16"   :href (o.link/file-path request "/favicons/favicon-16x16.png")}]
-     [:link {:rel "icon" :type "image/png" :sizes "192x192" :href (o.link/file-path request "/favicons/android-chrome-192x192.png")}]
-     [:link {:rel "icon" :type "image/png" :sizes "512x512" :href (o.link/file-path request "/favicons/android-chrome-512x512.png")}]]
+     (gen-favicon-links request)]
 
     [:body
      [:div.hero
       [:div.container
        [:h1 "samuelmchugh"]]]
+     [:nav (gen-nav-bar-anchors)]
      [:div.container
       [:div.body page]]
      [:footer.container "Copyright &copy; 2020 samuelmchugh"]]))
