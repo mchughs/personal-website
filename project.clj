@@ -19,8 +19,9 @@
                                    :source-map true}}]}
   :profiles {:prod {:env {:dev false}}
              :dev {:env {:dev true}
-                   :plugins [[lein-ring "0.12.5"]]}}
+                   :plugins [[lein-ring "0.12.5"]
+                             [yogthos/lein-sass "0.1.10"]
+                             [lein-pdo "0.1.1"]]}}
   :target-path "target/%s"
-  :plugins [[yogthos/lein-sass "0.1.10"]]
   :sass {:source "resources/public/sass"
          :target "target/resources/public/css"})

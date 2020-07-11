@@ -8,8 +8,8 @@
    {:rel "icon" :type "image/png" :sizes "512x512" :href "/favicons/android-chrome-512x512.png"}])
 
 (def nav-bar
-  [{:href "/"        :name "Home"}
-   {:href "/contact" :name "Contact"}
-   {:href "/other"   :name "Other"}
-   {:href "/#development=1" :name "AMP Test"}]) ;; Temporary link for easily accessible AMP validation
+  [{:href "#contact"        :name "Contact"}
+   {:href "#resume"         :name "Resume"}
+   {:href "#history"        :name "History"}
+   {:href "/#development=1" :name "AMP-Test"}]) ;; Temporary link for easily accessible AMP validation
    ;; Wont actually trigger validation by clicking the link hmm

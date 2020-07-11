@@ -1,3 +1,2 @@
 run:
-	lein sass
-	lein ring server-headless
+	lein pdo sass watch, ring server-headless

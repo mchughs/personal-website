@@ -1,4 +1,16 @@
 // Utilities
-@import "utilities/variables";
+@import 'variables';
 
-@import 'layout/home', 'layout/contact';
+@import 'section_header', 'section_contact';
+
+@font-face {
+  font-family: 'LineIcons';
+  src: url('/fonts/LineIcons.eot') format('eot'), /* IE9 Compat Modes */
+       url('/fonts/LineIcons.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/LineIcons.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('/fonts/LineIcons.svg') format('svg'); /* Legacy iOS */
+}
+
+body {
+  font-family: 'LineIcons', Fallback, sans-serif;
+}

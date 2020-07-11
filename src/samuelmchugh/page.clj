@@ -1,18 +1,12 @@
-(ns samuelmchugh.base
+(ns samuelmchugh.page
   (:require
-    [optimus.link :as o.link]
     [hiccup.page :as hiccup]
-    [samuelmchugh.config :as config]))
-
-(defn- gen-favicon-links [request]
-  (->> config/favicons
-       (map #(update % :href (partial o.link/file-path request)))
-       (map #(conj [:link] %))))
-
-(defn- gen-nav-bar-anchors []
-  (->> config/nav-bar
-       (map (fn [{:keys [href name]}]
-              [:a {:href href} name]))))
+    [samuelmchugh.components.favicons :as favicons]
+    [samuelmchugh.sections.header.core :as header]
+    [samuelmchugh.sections.contact.core :as contact]
+    [samuelmchugh.sections.resume.core :as resume]
+    [samuelmchugh.sections.history.core :as history]
+    [samuelmchugh.sections.footer.core :as footer]))
 
 (defn page [page request]
   (hiccup/html5
@@ -48,14 +42,12 @@
      ; Web-Browser bar iOS Safari
      [:meta {:name "apple-mobile-web-app-status-bar-style" :content "#4285f4"}] ;; TODO decide on a color
 
-     ; Favicons
-     (gen-favicon-links request)]
+     (favicons/component request)]
 
     [:body
-     [:div.hero
-      [:div.container
-       [:h1 "samuelmchugh"]]]
-     [:nav (gen-nav-bar-anchors)]
-     [:div.container
-      [:div.body page]]
-     [:footer.container "Copyright &copy; 2020 samuelmchugh"]]))
+     (header/section request)
+     [:div.content
+      (contact/section)
+      (resume/section)
+      (history/section)]
+     (footer/section)]))

@@ -1,36 +1,36 @@
 (ns samuelmchugh.web
   (:require
+    [clojure.java.io :as io]
+    [clojure.java.io :refer [resource]]
+    [environ.core :refer [env]]
+    [hiccup-bridge.core :as hicv]
+    [hiccup.page :as hiccup]
     [optimus.assets :as assets]
     [optimus.link :as link]
     [optimus.optimizations :as optimizations]
     [optimus.prime :as optimus]
-    [samuelmchugh.base :as base]
-    [samuelmchugh.utils :as utils]
     [optimus.strategies :refer [serve-live-assets serve-frozen-assets]]
-    [clojure.java.io :refer [resource]]
-    [clojure.java.io :as io]
-    [stasis.core :as stasis]
-    [environ.core :refer [env]]
-    [hiccup.page :as hiccup]
-    [hiccup-bridge.core :as hicv]))
+    [samuelmchugh.page :as page]
+    [samuelmchugh.utils :as utils]
+    [stasis.core :as stasis]))
 
-(def dev? (env :dev)) ;;TODO NEEDS TO BE FIXED
-; enable reloadable config
+(def dev? true) ;;TODO NEEDS TO BE FIXED
 
 (defn get-assets []
-  (assets/load-assets "public" [;#"/fonts/.+" TODO reintroduce once we have fonts
+  (assets/load-assets "public" [#"/fonts/.+"
+                                #"/images/.+"
                                 #"/favicons/.+"]))
 
 (defn get-pages []
   (stasis/merge-page-sources
    {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
     :partials (->> (stasis/slurp-directory "resources/partials" #".*\.html$")
-                   (utils/map-v #(partial base/page %)))
-    :pages (->> (stasis/slurp-directory "src/samuelmchugh/pages" #".*\.clj$")
-                (utils/map-v read-string)
-                (utils/map-v hicv/hiccup->html)
-                (utils/map-v #(partial base/page %))
-                (utils/map-k #(clojure.string/replace % #"\.clj$" "/index.html")))}))
+                   (utils/map-v #(partial page/page %)))}))
+    ; :pages (->> (stasis/slurp-directory "src/samuelmchugh/pages" #".*\.clj$")
+    ;             (utils/map-v read-string)
+    ;             (utils/map-v hicv/hiccup->html)
+    ;             (utils/map-v #(partial page/page %))
+    ;             (utils/map-k #(clojure.string/replace % #"\.clj$" "/index.html")))}))
 
 (def app
   (optimus/wrap
